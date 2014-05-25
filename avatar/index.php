@@ -39,8 +39,29 @@ function returnPaperResource($itemId, $paperSize = 120){
 $validPaperSizes = array(60, 88, 120);
 $defaultPaperSize = 120;
 
+if(isset($_GET['swid']) === false){
+	die();
+}
+
 $playerSwid = $_GET['swid'];
-$avatarPaperSize = $_GET['size'];
+
+if(isset($_GET['size']) === false){
+	$avatarPaperSize = 120;
+} else {
+	$avatarPaperSize = $_GET['size'];
+}
+
+if(is_dir("paper/60/") === false){
+	mkdir("paper/60/", 0777, true);
+}
+
+if(is_dir("paper/88/") === false){
+	mkdir("paper/88/", 0777, true);
+}
+
+if(is_dir("paper/120/") === false){
+	mkdir("paper/120/", 0777, true);
+}
 
 if(!in_array($avatarPaperSize, $validPaperSizes)){
 	$avatarPaperSize = $defaultPaperSize;
