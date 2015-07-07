@@ -2,8 +2,8 @@
 
 function downloadPapers($itemId, $paperSizes = array(60, 88, 120)){
 	foreach($paperSizes as $paperSize){
-		$avatarPaperUri = sprintf('paper/%d/%d.png', $paperSize, $itemId);
-		$avatarPaperUrl = 'http://media1.clubpenguin.com/avatar/' . $avatarPaperUri;
+		$avatarPaperUri = sprintf('paper/image/%d/%d.png', $paperSize, $itemId);
+		$avatarPaperUrl = 'http://mobcdn.clubpenguin.com/game/items/images/' . $avatarPaperUri;
 		$paperCurl = curl_init($avatarPaperUrl);
 		curl_setopt($paperCurl, CURLOPT_FRESH_CONNECT, true);
 		curl_setopt($paperCurl, CURLOPT_RETURNTRANSFER, true);
@@ -22,7 +22,7 @@ function cachePaper($itemId, $paperSize){
 	$downloadStatus = downloadPapers($itemId);
 	
 	if($downloadStatus !== false){
-		$paperImage = imagecreatefrompng(sprintf('paper/%d/%d.png', $paperSize, $itemId));
+		$paperImage = imagecreatefrompng(sprintf('paper/image/%d/%d.png', $paperSize, $itemId));
 		return $paperImage;
 	} else {
 		return false;
@@ -30,7 +30,7 @@ function cachePaper($itemId, $paperSize){
 }
 
 function returnPaperResource($itemId, $paperSize = 120){
-	$avatarUnbiasUri = sprintf('paper/%d/%d.png', $paperSize, $itemId);
+	$avatarUnbiasUri = sprintf('paper/image/%d/%d.png', $paperSize, $itemId);
 	$paperImage = file_exists($avatarUnbiasUri) ? imagecreatefrompng($avatarUnbiasUri) : cachePaper($itemId, $paperSize);
 	
 	return $paperImage;
@@ -51,16 +51,16 @@ if(isset($_GET['size']) === false){
 	$avatarPaperSize = $_GET['size'];
 }
 
-if(is_dir("paper/60/") === false){
-	mkdir("paper/60/", 0777, true);
+if(is_dir("paper/image/60/") === false){
+	mkdir("paper/image/60/", 0777, true);
 }
 
-if(is_dir("paper/88/") === false){
-	mkdir("paper/88/", 0777, true);
+if(is_dir("paper/image/88/") === false){
+	mkdir("paper/image/88/", 0777, true);
 }
 
-if(is_dir("paper/120/") === false){
-	mkdir("paper/120/", 0777, true);
+if(is_dir("paper/image/120/") === false){
+	mkdir("paper/image/120/", 0777, true);
 }
 
 if(!in_array($avatarPaperSize, $validPaperSizes)){
@@ -68,8 +68,8 @@ if(!in_array($avatarPaperSize, $validPaperSizes)){
 }
 
 $connectionString = 'mysql:dbname=kitsune;host=127.0.0.1';
-$databaseUser = 'kitsune';
-$databasePass = 'zMTFpF23yZcYprRj';
+$databaseUser = 'root';
+$databasePass = '';
 
 try {
 	$database = new PDO($connectionString, $databaseUser, $databasePass);
