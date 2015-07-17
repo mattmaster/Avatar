@@ -1,6 +1,6 @@
 <?php
 
-function downloadPapers($itemId, $paperSizes = array(60, 88, 120)){
+function downloadPapers($itemId, $paperSizes = array(60, 88, 120, 600)){
 	foreach($paperSizes as $paperSize){
 		$avatarPaperUri = sprintf('paper/image/%d/%d.png', $paperSize, $itemId);
 		$avatarPaperUrl = 'http://mobcdn.clubpenguin.com/game/items/images/' . $avatarPaperUri;
@@ -36,7 +36,7 @@ function returnPaperResource($itemId, $paperSize = 120){
 	return $paperImage;
 }
 
-$validPaperSizes = array(60, 88, 120);
+$validPaperSizes = array(60, 88, 120, 600);
 $defaultPaperSize = 120;
 
 if(isset($_GET['swid']) === false){
@@ -61,6 +61,10 @@ if(is_dir("paper/image/88/") === false){
 
 if(is_dir("paper/image/120/") === false){
 	mkdir("paper/image/120/", 0777, true);
+}
+
+if(is_dir("paper/image/600/") === false){
+	mkdir("paper/image/600/", 0777, true);
 }
 
 if(!in_array($avatarPaperSize, $validPaperSizes)){
